@@ -12,10 +12,21 @@ bool Activity::operator<(const Activity &a2) const {
 }
 
 std::vector<Activity> earliestFinishScheduling(std::vector<Activity> A) {
-    //TODO...
-
     std::vector<Activity> res;
-
+    std::sort(A.begin(), A.end());
+    while(!A.empty()){
+        Activity activity = *A.begin();
+        A.erase(A.begin());
+        res.push_back(activity);
+        auto it = A.begin();
+        while (it != A.end()){
+            if(it->start <= activity.finish){
+                A.erase(it);
+                continue;
+            }
+            it++;
+        }
+    }
     return res;
 }
 
