@@ -1,11 +1,56 @@
 // By: Gonçalo Leão
 
 #include "exercises.h"
+#include <iostream>
 
 bool changeMakingBF(unsigned int C[], unsigned int Stock[], unsigned int n, unsigned int T, unsigned int usedCoins[]) {
-    //TODO...
+    /*std::cout << "Stock: ";
+    for(int i = 0; i < n; i++){
+        std::cout << Stock[i] << " ";
+    }
+    std::cout << std::endl;*/
 
-    return false;
+    unsigned int compNumCoins = 0;
+    int possibleSolution[n];
+    bool first = true;
+    for(int i = 0; i < n; i++)
+        possibleSolution[i] = 0;
+
+    while(true){
+        int currentIndex = 0;
+
+        while(possibleSolution[currentIndex] == Stock[currentIndex]){
+            currentIndex++;
+            if(currentIndex == n) break;
+        }
+
+        if(currentIndex == n) break;
+
+        for(int i = 0; i < currentIndex; i++){
+            possibleSolution[i] = 0;
+        }
+
+        possibleSolution[currentIndex]++;
+
+        //std::cout << possibleSolution[0] << " " << possibleSolution[1] << " " << possibleSolution[2] << " " << possibleSolution[3] << std::endl ;
+
+        unsigned int sumCoins = 0;
+        unsigned int numCoins = 0;
+
+        for(int i = 0; i < n; i++){
+            sumCoins += possibleSolution[i] * C[i];
+            numCoins += possibleSolution[i];
+        }
+
+        if(sumCoins == T &&  (first || numCoins < compNumCoins)){
+            if(first) first = false;
+            compNumCoins = numCoins;
+            for(int i = 0; i < n; i++)
+                usedCoins[i] = possibleSolution[i];
+        }
+    }
+
+    return !first;
 }
 
 /// TESTS ///
