@@ -13,11 +13,25 @@ unsigned int sumArray(unsigned int a[], unsigned int n) {
 #include <iostream>
 
 bool isCanonical(unsigned int C[], unsigned int n) {
-    //TODO...
+    unsigned stock[n], solutionBF[n], solutionGreedy[n];
+    for(int i = C[2] + 2; i < C[n-2] + C[n-1]; i++){
 
-    return false;
+        for(int j = 0; j < n ; j++){
+            stock[j] = i;
+        }
+
+        if(changeMakingBF(C, stock, n, i, solutionBF) != changeMakingGreedy(C, stock, n, i, solutionGreedy)){
+            return false;
+        }
+
+        for(int j = 0; j < n; j++){
+            if(solutionGreedy[j] != solutionBF[j])
+                return false;
+        }
+    }
+
+    return true;
 }
-
 
 /// TESTS ///
 #include <gtest/gtest.h>

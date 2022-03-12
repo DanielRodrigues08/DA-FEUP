@@ -11,7 +11,7 @@ bool changeMakingBF(unsigned int C[], unsigned int Stock[], unsigned int n, unsi
     std::cout << std::endl;*/
 
     unsigned int compNumCoins = 0;
-    int possibleSolution[n];
+    int possibleSolution[99];
     bool first = true;
     for(int i = 0; i < n; i++)
         possibleSolution[i] = 0;
