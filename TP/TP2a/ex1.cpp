@@ -23,10 +23,9 @@ bool Labyrinth::findGoal(int x, int y) {
 }
 
 bool Labyrinth::findGoalAux(int x, int y) {
-    if(visited[x][y] || labyrinth[x][y] == 0) return false;
-    if(labyrinth[x][y] == 2) return true;
+    if(visited[x][y] || labyrinth[x][y] == MAZE_WALL) return false;
+    if(labyrinth[x][y] == MAZE_EXIT) return true;
     visited[x][y] = true;
-
     return findGoalAux(x+1,y) || findGoalAux(x,y+1) || findGoalAux(x-1,y) || findGoalAux(x,y-1);
 }
 
