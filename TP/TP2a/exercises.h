@@ -106,6 +106,8 @@ private:
      * Clears the whole puzzle
      */
     void clear();
+    int numValues(int i, int j);
+    std::pair<int, int> betterChoice();
 	//TODO: Add other methods if needed
 };
 

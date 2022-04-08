@@ -1,3 +1,5 @@
+#include <climits>
+#include <iostream>
 #include "exercises.h"
 
 Sudoku::Sudoku() {
@@ -36,14 +38,47 @@ bool Sudoku::isComplete() const {
     return countFilled == 9 * 9;
 }
 
+int Sudoku::numValues(int i, int j){
+    int counter = 0;
+    for(int temp = 1; temp < 10; temp++){
+        if(accepts(i,j,temp)) counter++;
+    }
+    return counter;
+}
+
+std::pair<int,int> Sudoku::betterChoice(){
+    std::pair<int,int> result = {-1,-1};
+    int comp = INT_MAX;
+    for(int i = 0; i < 9; i++){
+        for(int j = 0; j < 9; j++){
+            if(numbers[i][j] == 0){
+                int temp = numValues(i, j);
+                if( temp < comp){
+                    comp = temp;
+                    result = {i,j};
+                }
+            }
+        }
+    }
+    return result;
+}
+
 bool Sudoku::solve() {
-    //TODO
+        if(isComplete()) return true;
+    std::pair<int,int> location = betterChoice();
+    if(location.first == -1) return false;
+    for(int i = 1; i < 10; i++){
+        if(accepts(location.first,location.second, i)){
+            place(location.first, location.second, i);
+            if(solve()) return true;
+            clear(location.first, location.second);
+        }
+    }
     return false;
 }
 
 int Sudoku::countSolutions() {
-    //TODO
-    return 0;
+
 }
 
 void Sudoku::generate() {
@@ -71,8 +106,7 @@ void Sudoku::print() const {
 }
 
 bool Sudoku::accepts(int i, int j, int n) {
-	//TODO
-    return false;
+    return !columnHasNumber[j][n] && !lineHasNumber[i][n] && !block3x3HasNumber[i/3][j/3][n] ;
 }
 
 void Sudoku::place(int i, int j, int n) {

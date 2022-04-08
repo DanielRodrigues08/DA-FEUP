@@ -1,8 +1,34 @@
 #include "exercises.h"
 
+unsigned int sumTotal(unsigned int C[], unsigned int usedCoins[], unsigned int n){
+    unsigned total = 0;
+    for(int i = 0; i < n; i++)
+        total += C[i] * usedCoins[i];
+
+    return total;
+}
+
+bool aux(unsigned int C[], unsigned int Stock[], unsigned int n, unsigned int T, unsigned int usedCoins[]){
+    unsigned total = sumTotal(C, usedCoins, n);
+    if(total == T) return true;
+    if(total > T) return false;
+
+    for( int i = n-1; i >=0; i--){
+        if(Stock[i] > 0){
+            Stock[i]--;
+            usedCoins[i]++;
+            if(aux(C,Stock,n,T,usedCoins)) return true;
+            Stock[i]++;
+            usedCoins[i]--;
+        }
+    }
+    return false;
+}
+
 bool changeMakingBacktracking(unsigned int C[], unsigned int Stock[], unsigned int n, unsigned int T, unsigned int usedCoins[]) {
-    //TODO
-	return false;
+    for(int i = 0; i < n; i++)
+        usedCoins[i] = 0;
+    return aux(C,Stock,n,T,usedCoins);
 }
 
 /// TESTS ///
