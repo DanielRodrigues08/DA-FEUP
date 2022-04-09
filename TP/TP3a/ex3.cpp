@@ -1,8 +1,43 @@
 #include "exercises.h"
+#include <vector>
+#define INF INT32_MAX;
+
+using namespace std;
 
 bool changeMakingDP(unsigned int C[], unsigned int Stock[], unsigned int n, unsigned int T, unsigned int usedCoins[]) {
-    // TODO
-	return false;
+    for(int i = 0; i < n; i++){
+        usedCoins[i] = 0;
+    }
+
+    vector<int> minCoins(T+1, 0);
+    vector<int> lastCoins(T+1, 0);
+    vector<vector<int>> usedTemp;
+
+    for(int i = 0; i <= T; i++){
+        vector<int> temp;
+        for(int j = 0; j < n; j++)
+            temp.push_back(0);
+        usedTemp.push_back(temp);
+    }
+
+    minCoins[0] = 0;
+    for(int i = 1; i <= T;i++){
+        minCoins[i] = INF;
+        for(int j = 0; j < n; j++){
+            if(C[j] <= i && minCoins[i-C[j]] < minCoins[i] && usedTemp[i][j] < Stock[j]){
+                minCoins[i] = 1 + minCoins[i-C[j]];
+                lastCoins[i] = j;
+                usedTemp[i][j]++;
+            }
+        }
+    }
+
+    for(unsigned i = T; i > 0; i -= C[lastCoins[i]]){
+        if(minCoins[i] == INT32_MAX) return false;
+        usedCoins[lastCoins[i]]++;
+    }
+
+    return true;
 }
 
 /// TESTS ///
