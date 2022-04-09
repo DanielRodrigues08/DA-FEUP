@@ -10,7 +10,6 @@ bool changeMakingDP(unsigned int C[], unsigned int Stock[], unsigned int n, unsi
     }
 
     vector<int> minCoins(T+1, 0);
-    vector<int> lastCoins(T+1, 0);
     vector<vector<int>> usedTemp;
 
     for(int i = 0; i <= T; i++){
@@ -24,21 +23,21 @@ bool changeMakingDP(unsigned int C[], unsigned int Stock[], unsigned int n, unsi
     for(int i = 1; i <= T;i++){
         minCoins[i] = INF;
         for(int j = 0; j < n; j++){
-            if(C[j] <= i && minCoins[i-C[j]] < minCoins[i] && usedTemp[i][j] < Stock[j]){
+            if(C[j] <= i && minCoins[i-C[j]] < minCoins[i] && usedTemp[i-C[j]][j] < Stock[j]){
                 minCoins[i] = 1 + minCoins[i-C[j]];
-                lastCoins[i] = j;
                 usedTemp[i] = usedTemp[i-C[j]];
                 usedTemp[i][j]++;
             }
         }
     }
 
-    for(unsigned i = T; i > 0; i -= C[lastCoins[i]]){
-        if(minCoins[i] == INT32_MAX) return false;
-        usedCoins[lastCoins[i]]++;
+    int counter  = 0;
+    for(int i = 0; i < n; i++){
+        usedCoins[i] = usedTemp[T][i];
+        counter += usedTemp[T][i] * C[i];
     }
 
-    return true;
+    return counter == T;
 }
 
 /// TESTS ///
