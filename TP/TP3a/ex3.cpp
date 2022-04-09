@@ -27,6 +27,7 @@ bool changeMakingDP(unsigned int C[], unsigned int Stock[], unsigned int n, unsi
             if(C[j] <= i && minCoins[i-C[j]] < minCoins[i] && usedTemp[i][j] < Stock[j]){
                 minCoins[i] = 1 + minCoins[i-C[j]];
                 lastCoins[i] = j;
+                usedTemp[i] = usedTemp[i-C[j]];
                 usedTemp[i][j]++;
             }
         }
