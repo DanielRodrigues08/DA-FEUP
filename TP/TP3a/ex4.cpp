@@ -1,8 +1,21 @@
 #include "exercises.h"
+#include <vector>
+using namespace std;
+
+/*
+ * if (i == 1) return min(sequence)
+ *  return min()
+ *
+ *
+ */
 
 std::string calcSum(int sequence[], unsigned long n) {
-    // TODO
-    return "";
+    string result;
+    vector<int> sum;
+    for(int k = 1; k <= n; k++){
+
+    }
+    return result;
 }
 
 void testPerformanceCalcSum() {
